@@ -1,6 +1,7 @@
 import Search from './model/Search';
 import Recipe from './model/Recipe';
 import * as searchView from './view/searchView';
+import * as recipeView from './view/recipeView';
 import {elements, renderLoader, clearLoader} from './view/base';
 
 /**
@@ -55,16 +56,26 @@ elements.searchResPages.addEventListener('click', e => {
 const controlRecipe = async () => {
     //Get ID from url
     const id = window.location.hash.replace('#', '');
+    console.log(id);
     if(id) {
+        recipeView.clearRecipe();
+        renderLoader(elements.recipe);
         state.recipe = new Recipe(id);
+        
         try {
+
             await state.recipe.getRecipe();
             state.recipe.parseIngredients();
+            console.log(state.recipe.ingredients);
             state.recipe.calcTime();
             state.recipe.calcServings();
+
+            clearLoader();
+            recipeView.renderRecipe(state.recipe);
         } catch(error) {
             alert('Error processing recipe!');
+            console.log(error);
         }
     }
 };
-['haschange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
