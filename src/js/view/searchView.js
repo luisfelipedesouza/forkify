@@ -11,7 +11,7 @@ export const highlightSelected = id => {
     resultArr.forEach(el => {
         el.classList.remove('results__link--active');
     });
-    document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active');
+    document.querySelector(`.results__link[href="#${id}"]`).classList.add('results__link--active');
 };
 
 export const clearResults = () => {
@@ -19,7 +19,7 @@ export const clearResults = () => {
     elements.searchResPages.innerHTML = '';
 };
 
-const limitRecipeTitle = (title, limit = 17) => {
+export const limitRecipeTitle = (title, limit = 17) => {
     const newtitle = [];
     if(title.length > limit) {
         title.split(' ').reduce((acc, cur) => {
