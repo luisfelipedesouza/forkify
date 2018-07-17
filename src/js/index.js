@@ -100,7 +100,6 @@ const controlList = () => {
 /**
  * LIKE CONTROLLER
  */
-
  const controlLike = () => {
     if(!state.likes) state.likes = new Likes();
     const currentID = state.recipe.id;
@@ -131,6 +130,13 @@ elements.shopping.addEventListener('click', e => {
         state.list.updateCount(id, val);
     }
 });
+
+window.addEventListener('load', () => {
+    state.likes = new Likes();
+    state.likes.readStorage();
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+    state.likes.likes.forEach(like => likesView.renderLike(like));
+})
 
 elements.recipe.addEventListener('click', e => {
     if(e.target.matches('.btn-decrease, .btn-decrease *')) {
